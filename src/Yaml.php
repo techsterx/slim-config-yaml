@@ -2,28 +2,21 @@
 
 namespace techsterx\SlimConfig;
 
+use Slim\Slim;
 use Symfony\Component\Yaml\Yaml as sYaml;
 
-class Yaml extends Singleton
+class Yaml
 {
-	protected static $instance = null;
-
-	protected static $files = array();
-
 	private $values = array();
 
 	public function __construct()
 	{
-		$files = self::$files;
+		$app = Slim::getInstance();
 
-		foreach ($files as $file) {
-			$yml = sYaml::parse($file);
-
-			$this->values[] = &$yml;
-		}
+		$this->values['_settings'] = $app->container['settings'];
 	}
 
-	public static function addFile($file)
+	public function addFile($file)
 	{
 		if (self::$instance !== null) {
 			throw new \Exception('You need to set the path before calling ' . __CLASS__ . '::getInstance() method.');
