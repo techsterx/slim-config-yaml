@@ -4,18 +4,12 @@ namespace BurningDiode\Slim\Config;
 
 use Slim\Slim;
 use Symfony\Component\Yaml\Yaml as YamlParser;
+use BurningDiode\Slim\Config\ParameterBag;
 
 class Yaml
 {
-	/**
-	 * The singleton object
-	 *
-	 * @var Yaml
-	 */
-	protected static $instance = null;
-
-	protected static $slim = null;
-
+	protected static $instance;
+	protected static $slim;
 	protected static $parameters = array();
 
 	/**
@@ -26,24 +20,30 @@ class Yaml
 	 *
 	 * @return void
 	 */
-	public function addFile($file, $reset = true)
+	public function addFile($file, $resource = null)
 	{
 		if (!file_exists($file) || !is_file($file)) {
-			throw new \Exception('The configuration file does not exist.');
+			throw new \Exception('The configuration file ' . $file . ' does not exist.');
 		} else {
-			if ($reset === true) {
-				self::$parameters = array();
+			if ($resource === null) {
+				$resource = $file;
+			}
+
+			if (!array_key_exists($resource, self::$parameters)) {
+				self::$parameters[$resource] = new ParameterBag();
 			}
 
 			$content = YamlParser::parse(file_get_contents($file));
 
 			if ($content !== null) {
-				$content = self::parseImports($content, $file);
+				$content = self::parseImports($content, $resource);
 
-				$content = self::parseParameters($content);
+				$content = self::parseParameters($content, $resource);
 
-				self::addConfig($content);
+				self::addConfig($content, $resource);
 			}
+
+			//self::$parameters->resolve();
 		}
 	}
 
@@ -76,7 +76,7 @@ class Yaml
 	 */
 	public static function getInstance()
 	{
-		if (is_null(self::$instance)) {
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
@@ -93,24 +93,26 @@ class Yaml
 		return self::getInstance();
 	}
 
-	protected function addConfig($content)
+	protected function addConfig($content, $resource)
 	{
 		if (self::$slim === null) {
 			self::$slim = Slim::getInstance();
 		}
 
 		foreach ($content as $key => $value) {
+			$value = self::$parameters[$resource]->resolveValue($value);
+
 			self::$slim->config($key, $value);
 		}
 	}
 
-	protected function parseImports($content, $file)
+	protected function parseImports($content, $resource)
 	{
 		if (isset($content['imports'])) {
-			$chdir = dirname($file);
+			$chdir = dirname($resource);
 
 			foreach ($content['imports'] as $import) {
-				self::addFile($chdir . DIRECTORY_SEPARATOR . $import['resource'], false);
+				self::addFile($chdir . DIRECTORY_SEPARATOR . $import['resource'], $resource);
 			}
 
 			unset($content['imports']);
@@ -119,10 +121,11 @@ class Yaml
 		return $content;
 	}
 
-	protected function parseParameters($content)
+	protected function parseParameters($content, $resource)
 	{
 		if (isset($content['parameters'])) {
-			self::$parameters = array_merge(self::$parameters, $content['parameters']);
+			self::$parameters[$resource]->add($content['parameters']);
+			self::$parameters[$resource]->resolve();
 
 			unset($content['parameters']);
 		}
@@ -130,7 +133,7 @@ class Yaml
 		return $content;
 	}
 
-	private function __construct(){}
+	private function __construct() { } 
 	private function __clone(){} 
 	private function __wakeup(){}
 }
