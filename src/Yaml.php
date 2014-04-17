@@ -1,6 +1,6 @@
 <?php
 
-namespace techsterx\SlimConfig;
+namespace BurningDiode\Slim\Config;
 
 use Slim\Slim;
 use Symfony\Component\Yaml\Yaml as SymYaml;
