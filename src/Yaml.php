@@ -42,8 +42,6 @@ class Yaml
 
 				self::addConfig($content, $resource);
 			}
-
-			//self::$parameters->resolve();
 		}
 	}
 
@@ -95,10 +93,6 @@ class Yaml
 
 	protected function addConfig($content, $resource)
 	{
-		if (self::$slim === null) {
-			self::$slim = Slim::getInstance();
-		}
-
 		foreach ($content as $key => $value) {
 			$value = self::$parameters[$resource]->resolveValue($value);
 
@@ -133,7 +127,10 @@ class Yaml
 		return $content;
 	}
 
-	private function __construct() { } 
+	private function __construct() {
+		self::$slim = Slim::getInstance();
+	} 
+
 	private function __clone(){} 
 	private function __wakeup(){}
 }
