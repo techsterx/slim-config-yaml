@@ -3,39 +3,46 @@
 namespace techsterx\SlimConfig;
 
 use Slim\Slim;
-use Symfony\Component\Yaml\Yaml as sYaml;
+use Symfony\Component\Yaml\Yaml as SymYaml;
 
-class Yaml
+class Yaml2Slim
 {
-	private $values = array();
+	/**
+	 * The singleton object
+	 *
+	 * @var Yaml2Slim
+	 */
+	protected static $instance = null;
 
-	public function __construct()
-	{
-		$app = Slim::getInstance();
-
-		$this->values['_settings'] = $app->container['settings'];
-	}
-
+	/**
+	 * addFile - Parse .yml file and add it to slim
+	 *
+	 * @return void
+	 */
 	public function addFile($file)
 	{
-		if (self::$instance !== null) {
-			throw new \Exception('You need to set the path before calling ' . __CLASS__ . '::getInstance() method.');
-		} elseif (!file_exists($file) || !is_file($file)) {
+		if (!file_exists($file) || !is_file($file)) {
 			throw new \Exception('The configuration file does not exist.');
 		} else {
-			self::$files[] = $file;
+			$slim = Slim::getInstance();
+			$yaml = SymYaml::parse(file_get_contents($file));
+
+			foreach ($yaml as $key => $value) {
+				$slim->config($key, $value);
+			}
 		}
 	}
 
-	public static function setDirectory($directory)
+	/**
+	 * addDirectory - Parse .yml files in a given directory
+	 *
+	 * @return void
+	 */
+	public function addDirectory($directory)
 	{
-		if (self::$instance !== null) {
-			throw new \Exception('You need to set the path before calling ' . __CLASS__ . '::getInstance() method.');
-		} elseif (!file_exists($directory) || !is_dir($directory)) {
+		if (!file_exists($directory) || !is_dir($directory)) {
 			throw new \Exception('The configuration directory does not exist.');
 		} else {
-			self::$files = array();
-
 			if (substr($directory, -1) != DIRECTORY_SEPARATOR) {
 				$directory .= DIRECTORY_SEPARATOR;
 			}
@@ -46,17 +53,31 @@ class Yaml
 		}
 	}
 
-	public function __set($key, $value)
+	/**
+	 * getInstance - Get or create the current instance
+	 *
+	 * @return Yaml2Slim
+	 */
+	public static function getInstance()
 	{
-		$this->values[$key] = $value;
-	}
-
-	public function __get($key)
-	{
-		if (!array_key_exists($key, $this->values)) {
-			throw new \Exception('Invalid configuration key - ($key)');
+		if (is_null(self::$instance)) {
+			self::$instance = new self();
 		}
 
-		return $this->values[$key];
+		return self::$instance;
 	}
+
+	/**
+	 * _ - Shorthand for getInstance
+	 * 
+	 * @return Yaml2Slim
+	 */
+	public static function _()
+	{
+		return self::getInstance();
+	}
+
+	private function __construct(){}
+	private function __clone(){} 
+	private function __wakeup(){}
 }
