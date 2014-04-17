@@ -5,12 +5,12 @@ namespace techsterx\SlimConfig;
 use Slim\Slim;
 use Symfony\Component\Yaml\Yaml as SymYaml;
 
-class Yaml2Slim
+class Yaml
 {
 	/**
 	 * The singleton object
 	 *
-	 * @var Yaml2Slim
+	 * @var Yaml
 	 */
 	protected static $instance = null;
 
@@ -56,7 +56,7 @@ class Yaml2Slim
 	/**
 	 * getInstance - Get or create the current instance
 	 *
-	 * @return Yaml2Slim
+	 * @return Yaml
 	 */
 	public static function getInstance()
 	{
@@ -70,7 +70,7 @@ class Yaml2Slim
 	/**
 	 * _ - Shorthand for getInstance
 	 * 
-	 * @return Yaml2Slim
+	 * @return Yaml
 	 */
 	public static function _()
 	{

@@ -1,6 +1,7 @@
 {
   "name": "techsterx/slim-config-yaml",
   "type": "library",
+	"license": "MIT",
   "authors": [
     {
       "name": "William Rex",

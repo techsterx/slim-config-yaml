@@ -1,2 +1,2 @@
-slim-yaml-config
+slim-config-yaml
 ================
