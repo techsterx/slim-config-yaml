@@ -1,0 +1,7 @@
+imports:
+  - { resource: parameters.yml }
+
+items:
+  - %item1%
+  - %item2%
+  - 'Item 3'
