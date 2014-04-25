@@ -30,7 +30,7 @@ class Yaml
 				$resource = $file;
 			}
 
-			if (!isset($resource, self::$parameters)) {
+			if (!array_key_exists($resource, self::$parameters)) {
 				self::$parameters[$resource] = new ParameterBag();
 			}
 
