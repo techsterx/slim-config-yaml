@@ -11,6 +11,7 @@ class Yaml
 	protected static $instance;
 	protected static $slim;
 	protected static $parameters = array();
+	protected static $global_parameters = array();
 
 	/**
 	 * addFile - Parse .yml file and add it to slim
@@ -18,7 +19,7 @@ class Yaml
 	 * @param string $file
 	 * @param bool $reset (optional)
 	 *
-	 * @return void
+	 * @return Yaml
 	 */
 	public function addFile($file, $resource = null)
 	{
@@ -29,7 +30,7 @@ class Yaml
 				$resource = $file;
 			}
 
-			if (!array_key_exists($resource, self::$parameters)) {
+			if (!isset($resource, self::$parameters)) {
 				self::$parameters[$resource] = new ParameterBag();
 			}
 
@@ -43,14 +44,17 @@ class Yaml
 				self::addConfig($content, $resource);
 			}
 		}
+
+		return self::getInstance();
 	}
 
 	/**
 	 * addDirectory - Parse .yml files in a given directory
 	 *
 	 * @param string $directory
+	 * @param array $parameters (optional)
 	 *
-	 * @return void
+	 * @return Yaml
 	 */
 	public function addDirectory($directory)
 	{
@@ -65,6 +69,22 @@ class Yaml
 				self::addFile($file);
 			}
 		}
+
+		return self::getInstance();
+	}
+
+	/**
+	 * addParameters - Adds global parameters for use by all resources
+	 *
+	 * @param array $parameters
+	 *
+	 * @return Yaml
+	 */
+	public function addParameters(array $parameters)
+	{
+		self::$global_parameters = $parameters;
+
+		return self::getInstance();
 	}
 
 	/**
@@ -118,7 +138,9 @@ class Yaml
 	protected function parseParameters($content, $resource)
 	{
 		if (isset($content['parameters'])) {
-			self::$parameters[$resource]->add($content['parameters']);
+			$parameters = array_merge($content['parameters'], self::$global_parameters);
+
+			self::$parameters[$resource]->add($parameters);
 			self::$parameters[$resource]->resolve();
 
 			unset($content['parameters']);
