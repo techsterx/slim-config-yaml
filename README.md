@@ -1,5 +1,5 @@
-slim-config-yaml
-================
+Slim Config - YAML
+==================
 
 Parses YAML files and adds them into Slim's config singleton.
 Uses Symfony's YAML Component to parse files (http://github.com/symfony/Yaml).
