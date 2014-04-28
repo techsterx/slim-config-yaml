@@ -41,5 +41,5 @@ application's ```index.php``` file.
 ```php
 <?php
 require 'Yaml.php';
-\\BurningDiode\Slim\Config\Yaml::getInstance()->addFile(<file path>);
+\\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file');
 ```
