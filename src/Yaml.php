@@ -14,12 +14,12 @@ class Yaml
 	protected static $global_parameters = array();
 
 	/**
-	 * addFile - Parse .yml file and add it to slim
+	 * Parse .yml file and add it to slim
 	 *
 	 * @param string $file
-	 * @param bool $reset (optional)
+	 * @param string $resource (optional)
 	 *
-	 * @return Yaml
+	 * @return self
 	 */
 	public function addFile($file, $resource = null)
 	{
@@ -49,12 +49,11 @@ class Yaml
 	}
 
 	/**
-	 * addDirectory - Parse .yml files in a given directory
+	 * Parse .yml files in a given directory
 	 *
 	 * @param string $directory
-	 * @param array $parameters (optional)
 	 *
-	 * @return Yaml
+	 * @return self
 	 */
 	public function addDirectory($directory)
 	{
@@ -74,11 +73,11 @@ class Yaml
 	}
 
 	/**
-	 * addParameters - Adds global parameters for use by all resources
+	 * Adds global parameters for use by all resources
 	 *
 	 * @param array $parameters
 	 *
-	 * @return Yaml
+	 * @return self
 	 */
 	public function addParameters(array $parameters)
 	{
@@ -88,9 +87,9 @@ class Yaml
 	}
 
 	/**
-	 * getInstance - Get or create the current instance
+	 * Create a new or return the current instance
 	 *
-	 * @return Yaml
+	 * @return self
 	 */
 	public static function getInstance()
 	{
@@ -102,16 +101,24 @@ class Yaml
 	}
 
 	/**
-	 * _ - Shorthand for getInstance
+	 * Shorthand for getInstance
 	 * 
-	 * @return Yaml
+	 * @return self
 	 */
 	public static function _()
 	{
 		return self::getInstance();
 	}
 
-	protected function addConfig($content, $resource)
+	/**
+	 * Resolves parameters and adds to Slim's config singleton
+	 *
+	 * @param array $content
+	 * @param string $resource
+	 *
+	 * @return void
+	 */
+	protected function addConfig(array $content, $resource)
 	{
 		foreach ($content as $key => $value) {
 			$value = self::$parameters[$resource]->resolveValue($value);
@@ -120,7 +127,15 @@ class Yaml
 		}
 	}
 
-	protected function parseImports($content, $resource)
+	/**
+	 * Parses the imports section of a resource and includes them
+	 *
+	 * @param array $content
+	 * @param string $resource
+	 *
+	 * @return array
+	 */
+	protected function parseImports(array $content, $resource)
 	{
 		if (isset($content['imports'])) {
 			$chdir = dirname($resource);
