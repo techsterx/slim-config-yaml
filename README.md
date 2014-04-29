@@ -174,4 +174,4 @@ Array
     
 ## License
 
-The Slim Framework is released under the MIT public license.
+Slim Config - YAML is released under the MIT public license. (https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE)
