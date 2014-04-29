@@ -38,36 +38,140 @@ Download and extract src/ directory into your project directory and ```require``
 application's ```index.php``` file.
 ```php
 <?php
+require 'Slim\Slim.php';
 require 'Yaml.php';
-\\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file');
+
+$app = new \Slim\Slim();
+
+\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file');
 ```
 
-### Examples
+### Methods
+
+*Slim Config - YAML* uses a static method to get the currenct instance.
+If an instance doesn't exist, a new one will be created.
+Use the ```getInstance()``` method to get the current instance.
+
+```php
+$slimYaml = \BurningDiode\Slim\Config\Yaml::getInstance();
+```
+
+```_()``` is the shorthand equivalent of ```getInstance()```.
+
+```php
+$slimYaml = \BurningDiode\Slim\Config\Yaml::_();
+```
 
 To add a single file, use the ```addFile()``` method.
 ```php
-\\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file.yaml');
+\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file.yaml');
 ```
 
 You can also chain multiple ```addFile()``` methods togethor.
 ```php
-\\BurningDiode\Slim\Config\Yaml::getInstance()
+\BurningDiode\Slim\Config\Yaml::getInstance()
     ->addFile('/path/to/some/file.yaml')
     ->addFile('/path/to/another/file.yaml');
 ```
 
 You can import a whole directory of YAML files.
 ```php
-\\BurningDiode\Slim\Config\Yaml::getInstance()->addDirectory('/path/to/directory');
+\BurningDiode\Slim\Config\Yaml::getInstance()->addDirectory('/path/to/directory');
 ```
 
 You can chain with the ```addDirectory()``` method as well.
 ```php
-\\BurningDiode\Slim\Config\Yaml::getInstance()
+\BurningDiode\Slim\Config\Yaml::getInstance()
     ->addDirectory('/path/to/directory')
     ->addFile('/path/to/some/file.yaml');
 ```
 
+Specify some global parameters to be used by all Yaml files processed.
+```php
+\BurningDiode\Slim\Config\Yaml::_()
+    ->addParameters(array('%app.root%' => dirname(__FILE__)))
+    ->addDirectory('/path/to/config/directory')
+    ->addFile('/path/to/file/outside/of/config/directory.yml');
+```
+
+### Using Parameters
+
+You can specify parameters in YAML files that will be replaced using keywords. Parameters are only available to the resource currently being processed.
+
+config.yaml
+```yaml
+parameters:
+    key1: value1
+    key2: value2
+    
+application:
+    keya: %key1%
+    keyb: %key2%
+```
+
+app.php
+```php
+\BurningDiode\Slim\Config\Yaml::_()->addFile('config.yml');
+
+$config = $app->config('application');
+
+print_r($config);
+```
+
+Output:
+```
+Array
+(
+    [key1] => value1
+    [key2] => value2
+)
+```
+
+### Importing Files
+
+You can import other YAML files which can be useful to keep all your common parameters in one file and used in others.
+
+parameters.yml
+```yaml
+parameters:
+    db_host:  localhost
+    db_user:  username
+    db_pass:  password
+    db_dbase: database
+```
+
+database.yml
+```yaml
+imports:
+    - { resource: parameters.yml }
+    
+database:
+    hostname: %db_host%
+    username: %db_user%
+    password: %db_pass%
+    database: %db_dbase%
+```
+
+app.php
+```php
+\BurningDiode\Slim\Config\Yaml::_()->addFile('database.yml');
+
+$db_config = $app->config('database');
+
+print_r($db_config);
+```
+
+Output:
+```
+Array
+(
+    [hostname] => localhost
+    [username] => username
+    [password] => password
+    [database] => database
+)
+```
+    
 ## License
 
 The Slim Framework is released under the MIT public license.
