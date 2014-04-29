@@ -1,15 +1,14 @@
-Slim Config - YAML
-==================
+# Slim Config - YAML
 
 Parses YAML files and adds them into Slim's config singleton.
 Uses Symfony's YAML Component to parse files (http://github.com/symfony/Yaml).
 Allows other YAML files to be imported and parameters to be set and used.
 
-Installation
-============
+## Getting Started
 
-Composer
---------
+### Installation
+
+#### Composer
 
 Install composer in your project.
 ```
@@ -33,8 +32,7 @@ Add this line to your application's ```index.php``` file:
 require 'vendor/autoload.php';
 ```
 
-Manual Install
---------------
+#### Manual Install
 
 Download and extract src/ directory into your project directory and ```require``` it in your
 application's ```index.php``` file.
@@ -43,3 +41,33 @@ application's ```index.php``` file.
 require 'Yaml.php';
 \\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file');
 ```
+
+### Examples
+
+To add a single file, use the ```addFile()``` method.
+```php
+\\BurningDiode\Slim\Config\Yaml::getInstance()->addFile('/path/to/some/file.yaml');
+```
+
+You can also chain multiple ```addFile()``` methods togethor.
+```php
+\\BurningDiode\Slim\Config\Yaml::getInstance()
+    ->addFile('/path/to/some/file.yaml')
+    ->addFile('/path/to/another/file.yaml');
+```
+
+You can import a whole directory of YAML files as well.
+```php
+\\BurningDiode\Slim\Config\Yaml::getInstance()->addDirectory('/path/to/directory');
+```
+
+You can chain with the ```addDirectory()``` method as well.
+```php
+\\BurningDiode\Slim\Config\Yaml::getInstance()
+    ->addDirectory('/path/to/directory')
+    ->addFile('/path/to/some/file.yaml');
+```
+
+## License
+
+The Slim Framework is released under the MIT public license.
