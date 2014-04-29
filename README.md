@@ -56,7 +56,7 @@ You can also chain multiple ```addFile()``` methods togethor.
     ->addFile('/path/to/another/file.yaml');
 ```
 
-You can import a whole directory of YAML files as well.
+You can import a whole directory of YAML files.
 ```php
 \\BurningDiode\Slim\Config\Yaml::getInstance()->addDirectory('/path/to/directory');
 ```
