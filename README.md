@@ -174,4 +174,4 @@ Array
     
 ## License
 
-Slim Config - YAML is released under the MIT public license. (https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE)
+Slim Config - YAML is released under the [MIT public license] (https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE).
