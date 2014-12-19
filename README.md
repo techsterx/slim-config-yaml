@@ -89,7 +89,7 @@ You can chain with the ```addDirectory()``` method as well.
 Specify some global parameters to be used by all Yaml files processed.
 ```php
 \BurningDiode\Slim\Config\Yaml::_()
-    ->addParameters(array('%app.root%' => dirname(__FILE__)))
+    ->addParameters(array('app.root' => dirname(__FILE__)))
     ->addDirectory('/path/to/config/directory')
     ->addFile('/path/to/file/outside/of/config/directory.yml');
 ```
