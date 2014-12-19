@@ -81,7 +81,7 @@ class Yaml
 	 */
 	public function addParameters(array $parameters)
 	{
-		self::$global_parameters = $parameters;
+		self::$global_parameters = array_merge(self::$global_parameters, $parameters);
 
 		return self::getInstance();
 	}
@@ -152,14 +152,16 @@ class Yaml
 
 	protected function parseParameters($content, $resource)
 	{
-		if (isset($content['parameters'])) {
-			$parameters = array_merge($content['parameters'], self::$global_parameters);
+		$parameters = self::$global_parameters;
 
-			self::$parameters[$resource]->add($parameters);
-			self::$parameters[$resource]->resolve();
+		if (isset($content['parameters'])) {
+			$parameters = array_merge($content['parameters'], $parameters);
 
 			unset($content['parameters']);
 		}
+
+		self::$parameters[$resource]->add($parameters);
+		self::$parameters[$resource]->resolve();
 
 		return $content;
 	}
