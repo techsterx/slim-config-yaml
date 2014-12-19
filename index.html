@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>YAML Config for Slim Framework by techsterx</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>YAML Config for Slim Framework</h1>
+        <h2>Parses YAML files and adds them to Slim&#39;s config application instance method.</h2>
+        <a href="https://github.com/techsterx/slim-config-yaml" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="slim-config---yaml" class="anchor" href="#slim-config---yaml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Slim Config - YAML</h1>
+
+<p>Parses YAML files and adds them into Slim's config singleton.
+Uses Symfony's YAML Component to parse files (<a href="http://github.com/symfony/Yaml">http://github.com/symfony/Yaml</a>).
+Allows other YAML files to be imported and parameters to be set and used.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<h4>
+<a id="composer" class="anchor" href="#composer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composer</h4>
+
+<p>Install composer in your project.</p>
+
+<pre><code>curl -s https://getcomposer.org/installer | php
+</code></pre>
+
+<p>Create a <code>composer.json</code> file in your project root:</p>
+
+<pre><code>{
+    "require": {
+        "techsterx/slim-config-yaml": "1.*"
+    }
+}
+</code></pre>
+
+<p>Install via composer:</p>
+
+<pre><code>php composer.phar install
+</code></pre>
+
+<p>Add this line to your application's <code>index.php</code> file:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>vendor/autoload.php<span class="pl-pds">'</span></span>;</span></pre></div>
+
+<h4>
+<a id="manual-install" class="anchor" href="#manual-install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manual Install</h4>
+
+<p>Download and extract src/ directory into your project directory and <code>require</code> it in your
+application's <code>index.php</code> file.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>Slim\Slim.php<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s2"><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>Yaml.php<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-s3">\Slim\</span><span class="pl-s3">Slim</span>();</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance()<span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/some/file<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<h3>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h3>
+
+<p><em>Slim Config - YAML</em> uses a static method to get the currenct instance.
+If an instance doesn't exist, a new one will be created.
+Use the <code>getInstance()</code> method to get the current instance.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$slimYaml</span> <span class="pl-k">=</span> <span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance();</span></pre></div>
+
+<p><code>_()</code> is the shorthand equivalent of <code>getInstance()</code>.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$slimYaml</span> <span class="pl-k">=</span> <span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>_();</span></pre></div>
+
+<p>To add a single file, use the <code>addFile()</code> method.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance()<span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/some/file.yaml<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>You can also chain multiple <code>addFile()</code> methods togethor.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance()</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/some/file.yaml<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/another/file.yaml<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>You can import a whole directory of YAML files.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance()<span class="pl-k">-&gt;</span>addDirectory(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/directory<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>You can chain with the <code>addDirectory()</code> method as well.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>getInstance()</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addDirectory(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/directory<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/some/file.yaml<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>Specify some global parameters to be used by all Yaml files processed.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>_()</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addParameters(<span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>app.root<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s3">dirname</span>(<span class="pl-c1">__FILE__</span>)))</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addDirectory(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/config/directory<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2">    <span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>/path/to/file/outside/of/config/directory.yml<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<h3>
+<a id="using-parameters" class="anchor" href="#using-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Parameters</h3>
+
+<p>You can specify parameters in YAML files that will be replaced using keywords. Parameters are only available to the resource currently being processed.</p>
+
+<p>config.yaml</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-s1"><span class="pl-ent">parameters:</span></span>
+    <span class="pl-s1"><span class="pl-ent">key1:</span> <span class="pl-s1">value1</span></span>
+    <span class="pl-s1"><span class="pl-ent">key2:</span> <span class="pl-s1">value2</span></span>
+
+<span class="pl-s1"><span class="pl-ent">application:</span></span>
+    <span class="pl-s1"><span class="pl-ent">keya:</span> <span class="pl-s1">%key1%</span></span>
+    <span class="pl-s1"><span class="pl-ent">keyb:</span> <span class="pl-s1">%key2%</span></span></pre></div>
+
+<p>app.php</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>_()<span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>config.yml<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$config</span> <span class="pl-k">=</span> <span class="pl-vo">$app</span><span class="pl-k">-&gt;</span>config(<span class="pl-s1"><span class="pl-pds">'</span>application<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">print_r</span>(<span class="pl-vo">$config</span>);</span></pre></div>
+
+<p>Output:</p>
+
+<pre><code>Array
+(
+    [key1] =&gt; value1
+    [key2] =&gt; value2
+)
+</code></pre>
+
+<h3>
+<a id="importing-files" class="anchor" href="#importing-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Importing Files</h3>
+
+<p>You can import other YAML files which can be useful to keep all your common parameters in one file and used in others.</p>
+
+<p>parameters.yml</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-s1"><span class="pl-ent">parameters:</span></span>
+    <span class="pl-s1"><span class="pl-ent">db_host:</span>  <span class="pl-s1">localhost</span></span>
+    <span class="pl-s1"><span class="pl-ent">db_user:</span>  <span class="pl-s1">username</span></span>
+    <span class="pl-s1"><span class="pl-ent">db_pass:</span>  <span class="pl-s1">password</span></span>
+    <span class="pl-s1"><span class="pl-ent">db_dbase:</span> <span class="pl-s1">database</span></span></pre></div>
+
+<p>database.yml</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-s1"><span class="pl-ent">imports:</span></span>
+    <span class="pl-s1">- <span class="pl-ent">{ resource:</span> <span class="pl-s1">parameters.yml }</span></span>
+
+<span class="pl-s1"><span class="pl-ent">database:</span></span>
+    <span class="pl-s1"><span class="pl-ent">hostname:</span> <span class="pl-s1">%db_host%</span></span>
+    <span class="pl-s1"><span class="pl-ent">username:</span> <span class="pl-s1">%db_user%</span></span>
+    <span class="pl-s1"><span class="pl-ent">password:</span> <span class="pl-s1">%db_pass%</span></span>
+    <span class="pl-s1"><span class="pl-ent">database:</span> <span class="pl-s1">%db_dbase%</span></span></pre></div>
+
+<p>app.php</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">\BurningDiode\Slim\Config\</span><span class="pl-s3">Yaml</span><span class="pl-k">::</span>_()<span class="pl-k">-&gt;</span>addFile(<span class="pl-s1"><span class="pl-pds">'</span>database.yml<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-vo">$db_config</span> <span class="pl-k">=</span> <span class="pl-vo">$app</span><span class="pl-k">-&gt;</span>config(<span class="pl-s1"><span class="pl-pds">'</span>database<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">print_r</span>(<span class="pl-vo">$db_config</span>);</span></pre></div>
+
+<p>Output:</p>
+
+<pre><code>Array
+(
+    [hostname] =&gt; localhost
+    [username] =&gt; username
+    [password] =&gt; password
+    [database] =&gt; database
+)
+</code></pre>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Slim Config - YAML is released under the <a href="https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE">MIT public license</a>.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/techsterx/slim-config-yaml/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/techsterx/slim-config-yaml/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/techsterx/slim-config-yaml"></a> is maintained by <a href="https://github.com/techsterx">techsterx</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
