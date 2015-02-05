@@ -124,7 +124,7 @@ class ParameterBag
 			$resolved = $self->get($key);
 
 			if (!is_string($resolved) && !is_numeric($resolved)) {
-				throw new \Exception(sprintf('A string value must be composed of strings and/or numbers, but found parameter "%s" of type %s inside string vlaue "%s".', $key, gettype($resolved), $value));
+				throw new \Exception(sprintf('A string value must be composed of strings and/or numbers, but found parameter "%s" of type %s inside string value "%s".', $key, gettype($resolved), $value));
 			}
 
 			$resolved = (string) $resolved;
