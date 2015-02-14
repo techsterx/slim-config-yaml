@@ -1,5 +1,8 @@
 # Slim Config - YAML
 
+[![Build
+Status](https://travis-ci.org/techsterx/slim-config-yaml.svg?branch=master)](https://travis-ci.org/techsterx/slim-config-yaml)
+
 Parses YAML files and adds them into Slim's config singleton.
 Uses Symfony's YAML Component to parse files (http://github.com/symfony/Yaml).
 Allows other YAML files to be imported and parameters to be set and used.
