@@ -86,7 +86,7 @@ You can chain with the ```addDirectory()``` method as well.
     ->addFile('/path/to/some/file.yaml');
 ```
 
-Specify some global parameters to be used by all Yaml files processed.
+Specify some global parameters to be used by all YAML files processed.
 ```php
 \BurningDiode\Slim\Config\Yaml::_()
     ->addParameters(array('app.root' => dirname(__FILE__)))
