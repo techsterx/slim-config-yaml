@@ -123,7 +123,7 @@ class Yaml
 		foreach ($content as $key => $value) {
 			$value = self::$parameters[$resource]->resolveValue($value);
 
-			self::$slim->config($key, $value);
+			self::$slim->config(array($key => $value), true);
 		}
 	}
 
