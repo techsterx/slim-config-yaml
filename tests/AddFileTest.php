@@ -6,7 +6,7 @@ class AddFileTest extends \PHPUnit_Framework_TestCase
 {
 	public function testAddFile()
 	{
-		$app = \Slim\Slim::getInstance();
+		$app = new \Slim\Slim();
 
 		$data = array('item1', 'item2');
 

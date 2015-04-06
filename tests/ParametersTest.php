@@ -6,7 +6,7 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGlobalParameters()
 	{
-		$app = \Slim\Slim::getInstance();
+		$app = new \Slim\Slim();
 
 		$data = array('Item 1', 'Item 2', 'Item 3');
 

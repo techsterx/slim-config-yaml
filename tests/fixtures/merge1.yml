@@ -1,0 +1,5 @@
+imports:
+  - { resource: merge2.yml }
+
+items:
+  item-a: 'Item A'

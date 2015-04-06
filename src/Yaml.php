@@ -123,6 +123,11 @@ class Yaml
 		foreach ($content as $key => $value) {
 			$value = self::$parameters[$resource]->resolveValue($value);
 
+			if (is_array($value) && !is_numeric($key)) {
+				$key = array($key => $value);
+				$value = true;
+			}
+
 			self::$slim->config($key, $value);
 		}
 	}
