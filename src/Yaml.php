@@ -121,7 +121,9 @@ class Yaml
 	protected function addConfig(array $content, $resource)
 	{
 		foreach ($content as $key => $value) {
-			$value = self::$parameters[$resource]->resolveValue($value);
+			$parameterBag = self::$parameters[$resource];
+
+			$value = $parameterBag->unescapeValue($parameterBag->resolveValue($value));
 
 			if (is_array($value) && !is_numeric($key)) {
 				$key = array($key => $value);
