@@ -28,13 +28,13 @@ class ParameterBag
 
 	public function get($name)
 	{
-		$name = strtolower($name);
+		$key = strtolower($name);
 
 		if (!array_key_exists($name, $this->parameters)) {
 			throw new \Exception('Parameter ' . $name . ' not found.');
 		}
 
-		return $this->parameters[$name];
+		return $this->parameters[$key];
 	}
 
 	public function set($name, $value)
@@ -97,6 +97,7 @@ class ParameterBag
 	public function resolveString($value, array $resolving = array())
 	{
 		if (preg_match('/^%([^%\s]+)%$/', $value, $match)) {
+			$var = $match[1];
 			$key = strtolower($match[1]);
 
 			if (isset($resolving[$key])) {
@@ -105,7 +106,7 @@ class ParameterBag
 
 			$resolving[$key] = true;
 
-			return $this->resolved ? $this->get($key) : $this->resolvevalue($this->get($key), $resolving);
+			return $this->resolved ? $this->get($var) : $this->resolvevalue($this->get($var), $resolving);
 		}
 
 		$self = $this;
@@ -115,13 +116,14 @@ class ParameterBag
 				return '%%';
 			}
 
+			$var = $match[1];
 			$key = strtolower($match[1]);
 
 			if (isset($resolving[$key])) {
 				throw new \Exception('Parameters Circular Reference: ' . $key);
 			}
 
-			$resolved = $self->get($key);
+			$resolved = $self->get($var);
 
 			if (!is_string($resolved) && !is_numeric($resolved)) {
 				throw new \Exception(sprintf('A string value must be composed of strings and/or numbers, but found parameter "%s" of type %s inside string value "%s".', $key, gettype($resolved), $value));
