@@ -63,7 +63,7 @@ class ParameterBag
 		foreach ($this->parameters as $key => $value) {
 			try {
 				$value = $this->resolveValue($value);
-				$parameters[$key] = $this->unescapevalue($value);
+				$parameters[$key] = $this->unescapeValue($value);
 			} catch (\Exception $e) {
 				//$e->setSourceKey($key);
 
@@ -139,41 +139,21 @@ class ParameterBag
 		return $this->resolved;
 	}
 
-	public function escapeValue($value)
+	public function escapeValue($value, $unescape = false)
 	{
-		if (is_string($value)) {
-			return str_replace('%', '%%', $value);
+		$characters = array(array('%', '@'), array('%%', '@@'));
+
+		if ($unescape === false) {
+			$characters = array_reverse($characters);
 		}
 
-		if (is_array($value)) {
-			$result = array();
+		list($search, $replace) = $characters;
 
-			foreach ($value as $k => $v) {
-				$result[$k] = $this->escapeValue($v);
-			}
-
-			return $result;
-		}
-
-		return $value;
+		return json_decode(str_replace($search, $replace, json_encode($value)), true);
 	}
 
 	public function unescapeValue($value)
 	{
-		if (is_string($value)) {
-			return str_replace('%%', '%', $value);
-		}
-
-		if (is_array($value)) {
-			$result = array();
-
-			foreach ($value as $k => $v) {
-				$result[$k] = $this->unescapeValue($v);
-			}
-
-			return $result;
-		}
-
-		return $value;
+		return $this->escapeValue($value, true);
 	}
 }
