@@ -143,7 +143,7 @@ class ParameterBag
 	{
 		$characters = array(array('%', '@'), array('%%', '@@'));
 
-		if ($unescape === false) {
+		if ($unescape === true) {
 			$characters = array_reverse($characters);
 		}
 
