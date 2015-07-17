@@ -1,7 +1,9 @@
 # Slim Config - YAML
 
-[![Build
-Status](https://travis-ci.org/techsterx/slim-config-yaml.svg?branch=master)](https://travis-ci.org/techsterx/slim-config-yaml)
+[![Build Status](https://travis-ci.org/techsterx/slim-config-yaml.svg?branch=master)](https://travis-ci.org/techsterx/slim-config-yaml)
+[![Total Downloads](https://poser.pugx.org/techsterx/slim-config-yaml/d/total.svg)](https://packagist.org/packages/techsterx/slim-config-yaml)
+[![Latest Stable Version](https://poser.pugx.org/techsterx/slim-config-yaml/v/stable.svg)](https://packagist.org/packages/techsterx/slim-config-yaml)
+[![License](https://poser.pugx.org/techsterx/slim-config-yaml/license.svg)](https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE)
 
 Parses YAML files and adds them into Slim's config singleton.
 Uses Symfony's YAML Component to parse files (http://github.com/symfony/Yaml).
