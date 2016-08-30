@@ -1,6 +1,7 @@
 # Slim Config - YAML
 
 [![Build Status](https://travis-ci.org/techsterx/slim-config-yaml.svg?branch=master)](https://travis-ci.org/techsterx/slim-config-yaml)
+[![StyleCI](https://styleci.io/repos/18843943/shield?style=flat)](https://styleci.io/repos/18843943)
 [![Total Downloads](https://poser.pugx.org/techsterx/slim-config-yaml/d/total.svg)](https://packagist.org/packages/techsterx/slim-config-yaml)
 [![Latest Stable Version](https://poser.pugx.org/techsterx/slim-config-yaml/v/stable.svg)](https://packagist.org/packages/techsterx/slim-config-yaml)
 [![License](https://poser.pugx.org/techsterx/slim-config-yaml/license.svg)](https://raw.githubusercontent.com/techsterx/slim-config-yaml/master/LICENSE)
